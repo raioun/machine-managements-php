@@ -1,0 +1,55 @@
+@extends('layouts.admin')
+
+@section('title', '新規所有営業所登録')
+@section('content')
+      
+<div class="text-center">
+  <h1>新規営業所登録</h1>
+</div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+    
+        <form action="{{ action('Admin\BranchController@create') }}" method="post" enctype="multipart/form-data">
+          
+          @if (count($errors) > 0)
+            <ul>
+              @foreach($errors->all() as $e)
+                <li>{{ $e }}</li>
+              @endforeach
+            </ul>
+          @endif
+          
+            <div class="form-group">
+              <label for="branch_company_id">所有企業名</label>
+              <select class="mySelect2" name="company_id">
+                @foreach($companies as $company)
+                  <option @if(old('company_id') == $company->id) selected="selected" @endif value="{{ $company->id }}">{{ $company->name }}</option>
+                @endforeach
+              </select>
+            </div>
+    
+        <div class="form-group">
+          <label for="branch_name">所有営業所名</label>
+          <input class="form-control" type="text" name="name" value="{{ old('name') }}"/>
+        </div>
+        
+        <div class="form-group">
+          <label for="branch_address">住所</label>
+          <input class="form-control" type="text" name="address" value="{{ old('address') }}"/>
+        </div>
+        {{ csrf_field() }}
+        <input type="submit" value="登録" class="btn btn-success" data-disable-with="登録" />
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+$(document).ready(function() {
+  $('.mySelect2').select2();
+});
+</script>
+
+@endsection

@@ -16,8 +16,8 @@ class CreateMachinesTable extends Migration
         Schema::create('machines', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('type1');
-            $table->string('type2');
+            $table->string('type1')->nullable();
+            $table->string('type2')->nullable();
             $table->timestamps();
         });
     }

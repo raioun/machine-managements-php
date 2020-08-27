@@ -15,12 +15,12 @@ class CreateRentalMachinesTable extends Migration
     {
         Schema::create('rental_machines', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->integer('machine_id');
             $table->integer('branch_id');
             $table->integer('storage_id');
             $table->integer('status')->default(0); //limit(1)一旦未記入 null(false)も一旦未記入
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

@@ -17,8 +17,8 @@ class CreateOrderersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('customer_id');
             $table->string('family_name');
-            $table->string('first_name');
-            $table->string('phone_number');
+            $table->string('first_name')->nullable();
+            $table->string('phone_number')->nullable();
             $table->integer('status')->default(0); //limit(1)一旦未記入 null(false)も一旦未記入
             $table->timestamps();
         });

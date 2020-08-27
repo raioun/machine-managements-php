@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('customer_id');
             $table->string('name');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->integer('status')->default(0); //limit(1)一旦未記入 null(false)も一旦未記入
             $table->timestamps();
         });

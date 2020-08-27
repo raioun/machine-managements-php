@@ -9,8 +9,11 @@ class RentalMachine extends Model
     protected $guarded = array('id');
     
     public static $rules = array(
-        'code' => 'required',
-        'remarks' => 'required',
+        // 'code' => 'required',
+        // 'remarks' => 'required',
+        
+        'code' => 'max:10',
+        'remarks' => 'max:100',
     );
     
     public function orders()
@@ -33,6 +36,18 @@ class RentalMachine extends Model
         return $this->belongsToMany('App\Project')->using('App\Order');
     }
     
+    public function machine(){
+      return $this->belongsTo('App\Machine');
+    }
+    
+    public function branch(){
+      return $this->belongsTo('App\Branch');
+    }
+    
+    public function storage(){
+      return $this->belongsTo('App\Storage');
+    }
+    
     //rails で enum で定義しているところを、あえてクラス変数連想配列で行う　status 
     public static $statuses = [
         0 => '良品',
@@ -40,19 +55,14 @@ class RentalMachine extends Model
         2 => '廃棄済み'
     ];
     
-    //lengthほか、正規表現で組む https://qiita.com/daiti0113/items/3af7b433c58003762a37 参照 ※文字数制限も組める
-    public function rules()
-    {
-        return[
-            'code' => 'max:10',
-        ];
-    
+    public function status_name(){
+      return self::$statuses[$this->status];
     }
         
-    public function rental_machine_full_name()
-    {
-    '機材名：' + self.machine.name + '/' + self.machine.type1 + '/' + self.machine.type2 + '/' + '機番：' + self.code + '/' + '所有営業所名：' + self.branch.company.name + '/' + self.branch.name;
-    }
+    // public function rental_machine_full_name()
+    // {
+    // '機材名：' + {{ $rental_machine->machine->name }} + '/' + {{ $rental_machine->machine->type1 }} + '/' + {{ $rental_machine->machine->type2 }} + '/' + '機番：' + {{ $rental_machine->machine->code }} + '/' + '所有営業所名：' + {{ $rental_machine->branch->company->name }} + '/' + {{ $rental_machine->branch->name }};
+    // }
 
     
 }

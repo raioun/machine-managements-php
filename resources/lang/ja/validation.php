@@ -79,7 +79,7 @@ return [
     'max' => [
         'numeric' => 'The :attribute may not be greater than :max.',
         'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
+        'string' => ':attribute は :max 文字以内で記述してください。',
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'mimes' => 'The :attribute must be a file of type: :values.',
@@ -87,7 +87,7 @@ return [
     'min' => [
         'numeric' => 'The :attribute must be at least :min.',
         'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
+        'string' => ':attribute は :min 文字以上でなければなりません。',
         'array' => 'The :attribute must have at least :min items.',
     ],
     'not_in' => 'The selected :attribute is invalid.',
@@ -147,6 +147,15 @@ return [
 
     'attributes' => [
         'name' => '名前',
+        'password' => 'パスワード',
+        'type1' => '型式1',
+        'type2' => '型式2',
+        'family_name' => '発注者名(姓)',
+        'first_name' => '発注者名(名)',
+        'address' => '住所',
+        'phone_number' => '電話番号',
+        'out_date' => '出庫日',
+        'in_date' => '入庫日',
         'status' => '状態',
     ],
 

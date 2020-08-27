@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'password',
+        'name', 'password', 'status'
     ];
 
     /**
@@ -36,6 +36,11 @@ class User extends Authenticatable
     // protected $casts = [
     //     'email_verified_at' => 'datetime',
     // ];
+    
+    public static $rules = array(
+            'name' => 'required | unique:users| max:50 | min:1',
+            'password' => 'required',
+    );
     
     public function orders()
     {
@@ -63,17 +68,7 @@ class User extends Authenticatable
         1 => '退社済み'
     ];
     
-    //lengthほか、正規表現で組む https://qiita.com/daiti0113/items/3af7b433c58003762a37 参照 ※文字数制限も組める
-    public function rules()
-    {
-        return [
-            'name' => 'unique:users',
-            
-            'name' => 'max:50',
-            
-            'name' => 'min:1',
-            
-            // 'name' => 'unique:users | max:50 | min:1'
-        ];
+    public function status_name(){
+      return self::$statuses[$this->status];
     }
 }
