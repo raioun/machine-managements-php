@@ -38,7 +38,19 @@ class BranchController extends Controller
     $where = '';
     $i = 0;
 
-    // こちらに所有企業名を作成。↓に$where .= ' and ';は記述済み。
+    if (isset($request->company_name)) {
+      $companies = Company::where('name', 'LIKE', "%$request->company_name%")->get();
+      
+      $query = '(';
+      foreach($companies as $company) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("company_id = %s ", $company->id);
+      }
+      $query .= ')';
+      
+      $where .= $query;
+      $i++;
+    }
     
     if (isset($request->name)) {
       if ($i) {

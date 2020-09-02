@@ -13,17 +13,17 @@
   
     <div class="form-group">
       <label for="machine_機材名">機材名</label>
-      <input type="text" name="machine" id="machine" />
+      <input type="text" name="machine_name"/>
     </div>
     
     <div class="form-group">
       <label for="type1_型式1">型式1</label>
-      <input type="text" name="type1" id="type1" />
+      <input type="text" name="machine_type1"/>
     </div>
     
     <div class="form-group">
       <label for="type2_型式2">型式2</label>
-      <input type="text" name="type2" id="type2" />
+      <input type="text" name="machine_type2"/>
     </div>
     
     <div class="form-group">
@@ -33,22 +33,22 @@
 
     <div class="form-group">
       <label for="company_所有企業名">所有企業名</label>
-      <input type="text" name="company" id="company" />
+      <input type="text" name="branch_company_name"/>
     </div>
     
     <div class="form-group">
       <label for="branch_所有営業所名">所有営業所名</label>
-      <input type="text" name="branch" id="branch" />
+      <input type="text" name="branch_name"/>
     </div>
     
     <div class="form-group">
       <label for="storage_company_保管企業名">保管企業名</label>
-      <input type="text" name="storage_company" id="storage_company" />
+      <input type="text" name="storage_company_name"/>
     </div>
     
     <div class="form-group">
       <label for="storage_保管場所名">保管場所名</label>
-      <input type="text" name="storage" id="storage" />
+      <input type="text" name="storage_name"/>
     </div>
     
     <div class="form-group">

@@ -9,7 +9,7 @@
 </div>
   <div class="text-center">
     <div class="link">
-      <a class="btn btn-lg btn-info" href="/admin/users/create">新規ユーザ登録</a>
+      {{--<a class="btn btn-lg btn-info" href="/admin/users/create">新規ユーザ登録</a> registerはログアウト状態でないと作成できないようになっているため--}}
       <a class="btn btn-lg btn-success" href="/admin/users">ユーザ一覧</a>
     </div>
     <div class="link">

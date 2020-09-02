@@ -8,26 +8,28 @@ use App\User;
 
 class UserController extends Controller
 {
-  public function add()
-  {
-    return view('admin.user.create');
-  }
+  // registerで行うため、user.addとcreateは不要
   
-  public function create(Request $request)
-  {
-    $this->validate($request, User::$rules);
+  // public function add()
+  // {
+  //   return view('admin.user.create');
+  // }
+  
+  // public function create(Request $request)
+  // {
+  //   $this->validate($request, User::$rules);
     
-    $user = new User;
-    $form = $request->all();
+  //   $user = new User;
+  //   $form = $request->all();
     
-    unset($form['_token']);
+  //   unset($form['_token']);
     
-    $user->fill($form);
-    $user->save();
+  //   $user->fill($form);
+  //   $user->save();
     
-    return redirect('/');
-    //登録成否メッセージを入れる
-  }
+  //   return redirect('/');
+  //   //登録成否メッセージを入れる
+  // }
   
   public function index(Request $request)
   {

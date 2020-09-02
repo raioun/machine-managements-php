@@ -11,15 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('toppage');
-});
+// ->middleware('auth');を不具合なく設定
+Route::get('/', 'HomeController@index')->middleware('auth');
 
-//　↓　後に削除
-Route::group(['prefix' => 'admin'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     
-    Route::get('users/create', 'Admin\UserController@add');
-    Route::post('users/create', 'Admin\UserController@create');
+    // Route::get('users/create', 'Admin\UserController@add');
+    // Route::post('users/create', 'Admin\UserController@create');
     Route::get('users', 'Admin\UserController@index');
     Route::get('users/show', 'Admin\UserController@show')->name('show_user');
     Route::get('users/edit', 'Admin\UserController@edit');
@@ -97,13 +95,13 @@ Route::group(['prefix' => 'admin'], function() {
     
 });
 
-// ログイン処理追加　後に復活 customer以外の分も
+// ログイン処理追加　後に復活 CUSTOMER以外の分も
 // Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
 //     Route::get('customers/create', 'Admin\CustomerController@add');
 //     Route::post('customers/create', 'Admin\CustomerController@create');
 //     Route::get('customers', 'Admin\CustomerController@index');
-//     Route::get('customers/edit', 'Admin\CustomerController@edit');
-//     Route::post('customers/edit', 'Admin\CustomerController@update');
+//     Route::get('customers/edit', 'Admin\CustomerController@edit'));
+//     Route::post('customers/edit', 'Admin\CustomerController@update')
 // });
 
 Auth::routes();

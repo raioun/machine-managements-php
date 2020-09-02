@@ -40,12 +40,57 @@ class RentalMachineController extends Controller
   
   public function index(Request $request)
   {
-    
     $where = '';
     $i = 0;
     
-    // machine->name, machine->type1, machine->type2 要実装 ↓に$where .= ' and ';は記述済み。
-    
+    if (isset($request->machine_name)) {
+      $machines = Machine::where('name', 'LIKE', "%$request->machine_name%")->get();
+      
+      $query = '(';
+      foreach($machines as $machine) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("machine_id = %s ", $machine->id);
+      }
+      $query .= ')';
+      
+      $where .= $query;
+      $i++;
+    }
+        
+    if (isset($request->machine_type1)) {
+      $machines = Machine::where('type1', 'LIKE', "%$request->machine_type1%")->get();
+      
+      $query = '(';
+      foreach($machines as $machine) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("machine_id = %s ", $machine->id);
+      }
+      $query .= ')';
+      
+      if ($i) {
+        $where .= ' and';
+      }
+      $where .= $query;
+      $i++;
+    }
+        
+    if (isset($request->machine_type2)) {
+      $machines = Machine::where('type2', 'LIKE', "%$request->machine_type2%")->get();
+      
+      $query = '(';
+      foreach($machines as $machine) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("machine_id = %s ", $machine->id);
+      }
+      $query .= ')';
+      
+      if ($i) {
+        $where .= ' and';
+      }
+      $where .= $query;
+      $i++;
+    }
+
     if (isset($request->code)) {
       if ($i) {
          $where .= ' and ';
@@ -56,7 +101,83 @@ class RentalMachineController extends Controller
       $i++;
     }
     
-    // 所有企業名、営業所名、保管企業名、保管営業所名、status要実装
+    // 所有企業名、要実装 branch_company_name
+    if (isset($request->branch_company_name)) {
+      $companies = Company::where('name', 'LIKE', "%$request->branch_company_name%")->get();
+      $branches = [];
+      foreach($companies as $company) {
+        $tmp = Branch::where('company_id', $company->id)->get()->all();
+        $branches = array_merge($branches, $tmp);
+      }
+      $query = '(';
+      foreach($branches as $branch) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("branch_id = %s ", $branch->id);
+      }
+      $query .= ')';
+      if ($i) {
+         $where .= ' and ';
+      }
+      $where .= $query;
+      $i++;
+    }
+    
+    if (isset($request->branch_name)) {
+      $branches = Branch::where('name', 'LIKE', "%$request->branch_name%")->get();
+      
+      $query = '(';
+      foreach($branches as $branche) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("branch_id = %s ", $branche->id);
+      }
+      $query .= ')';
+      
+      if ($i) {
+        $where .= ' and';
+      }
+      $where .= $query;
+      $i++;
+    }
+    
+    // 保管企業名、要実装 storage_company_name
+    if (isset($request->storage_company_name)) {
+      $companies = Company::where('name', 'LIKE', "%$request->storage_company_name%")->get();
+      $storages = [];
+      foreach($companies as $company) {
+        $tmp = Branch::where('company_id', $company->id)->get()->all();
+        $storages = array_merge($storages, $tmp);
+      }
+      $query = '(';
+      foreach($storages as $storage) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("storage_id = %s ", $storage->id);
+      }
+      $query .= ')';
+      if ($i) {
+         $where .= ' and ';
+      }
+      $where .= $query;
+      $i++;
+    }
+
+    if (isset($request->storage_name)) {
+      $storages = Storage::where('name', 'LIKE', "%$request->storage_name%")->get();
+      
+      $query = '(';
+      foreach($storages as $storage) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("storage_id = %s ", $storage->id);
+      }
+      $query .= ')';
+      
+      if ($i) {
+        $where .= ' and';
+      }
+      $where .= $query;
+      $i++;
+    }
+    
+    // status、要実装
     
     if ($i) {
       $rental_machines = RentalMachine::whereRaw($where)->get();

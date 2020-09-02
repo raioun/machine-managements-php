@@ -41,8 +41,20 @@ class OrdererController extends Controller
     $where = '';
     $i = 0;
     
-    // 顧客企業名の検索をこちらに入れる ↓に$where .= ' and ';は入れてある。
-    
+    if (isset($request->customer_name)) {
+      $customers = Customer::where('name', 'LIKE', "%$request->customer_name%")->get();
+      
+      $query = '(';
+      foreach($customers as $customer) {
+        $query .= $query == '(' ? '' : 'or ';
+        $query .= sprintf("customer_id = %s ", $customer->id);
+      }
+      $query .= ')';
+      
+      $where .= $query;
+      $i++;
+    }
+
     if (isset($request->family_name)) {
       if ($i) {
          $where .= ' and ';

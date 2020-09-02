@@ -12,7 +12,7 @@
     
     <div class="form-group">
       <label for="customer_顧客企業名">顧客企業名</label>
-      <input type="text" name="customer" id="customer" />
+      <input type="text" name="customer_name"/>
     </div>
     
     <div class="form-group">

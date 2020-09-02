@@ -12,7 +12,7 @@
   
     <div class="form-group">
       <label for="company_所有企業名">所有企業名</label>
-      <input type="text" name="company" id="company" />
+      <input type="text" name="company_name"/>
     </div>
     
     <div class="form-group">
