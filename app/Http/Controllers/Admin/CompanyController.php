@@ -46,7 +46,8 @@ class CompanyController extends Controller
       $companies = Company::all();
     }
     
-    return view('admin.company.index', ['companies' => $companies]);
+    $inputs = $request->all();
+    return view('admin.company.index', ['companies' => $companies, 'inputs' => $inputs]);
   }
 
   public function show(Request $request)

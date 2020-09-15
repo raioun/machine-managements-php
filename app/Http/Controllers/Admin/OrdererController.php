@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Orderer; //ここ忘れずに入れる
 use App\Customer; //連結modelの記載も忘れずに
+use App\Order;
 
 class OrdererController extends Controller
 {
@@ -64,7 +65,14 @@ class OrdererController extends Controller
       $i++;
     }
     
-    // status要実装
+    // status
+    if (isset($request->status)) {
+      if ($i) {
+        $where .= ' and ';
+      }
+      $where .= sprintf("status = %s ", $request->status);
+      $i++;
+    }
     
     if ($i) {
       $orderers = Orderer::whereRaw($where)->get();
@@ -72,14 +80,51 @@ class OrdererController extends Controller
       $orderers = Orderer::all();
     }
     
-    return view('admin.orderer.index', ['orderers' => $orderers]);
+    $inputs = $request->all();
+    return view('admin.orderer.index', ['orderers' => $orderers, 'inputs' => $inputs]);
   }
   
   // 7/20 修正
   public function show(Request $request)
   {
+    $where = 'rental_machine_id = ' . $request->id;
+    $i = 1;
+    
+    // status
+    if (isset($request->order_status)) {
+      if ($i) {
+        $where .= ' and ';
+      }
+      $where .= sprintf("status = %s ", $request->order_status);
+      $i++;
+    }
+    
+    // out_date
+    if (isset($request->out_date)) {
+      if ($i) {
+         $where .= ' and ';
+      }
+      $query = sprintf("CAST(out_date as CHAR) LIKE '%%%s%%' ", $request->out_date);
+      $where .= $query;
+      $i++;
+    }
+    
+    // in_date
+    if (isset($request->in_date)) {
+      if ($i) {
+         $where .= ' and ';
+      }
+      $query = sprintf("CAST(in_date as CHAR) LIKE '%%%s%%' ", $request->in_date);
+      $where .= $query;
+      $i++;
+    }
+    
+    $orders = Order::whereRaw($where)->get();
+    // dd($where);
+    
     $orderer = Orderer::find($request->id);
-    return view('admin.orderer.show', ['orderer' => $orderer]);
+    $inputs = $request->all();
+    return view('admin.orderer.show', ['orderer' => $orderer, 'orders' => $orders, 'inputs' => $inputs]);
   }
   
   public function edit(Request $request)

@@ -34,15 +34,6 @@ class Storage extends Model
       return $this->belongsTo('App\Company');
     }
     
-    //lengthほか、正規表現で組む https://qiita.com/daiti0113/items/3af7b433c58003762a37 参照 ※文字数制限も組める
-    public function rules()
-    {
-        return[
-
-        ];
-    
-    }
-    
     public function storage_full_name()
     {
         self.company.name + '/' + self.name;

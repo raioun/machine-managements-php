@@ -12,7 +12,7 @@
   
     <div class="form-group">
       <label for="customer_顧業名">顧客企業名</label>
-      <input type="text" name="name">
+      <input type="text" name="name" value="@if(isset($inputs['name'])){{ $inputs['name'] }}@endif">
     </div>
     
     <div><input type="submit" value="検索" data-disable-with="検索" /></div>

@@ -12,19 +12,20 @@
     
     <div class="form-group">
       <label for="customer_顧客企業名">顧客企業名</label>
-      <input type="text" name="customer_name"/>
+      <input type="text" name="customer_name" value="@if(isset($inputs['customer_name'])){{ $inputs['customer_name'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="name_現場名">現場名</label>
-      <input type="text" name="name">
+      <input type="text" name="name" value="@if(isset($inputs['name'])){{ $inputs['name'] }}@endif">
     </div>
     
     <div class="form-group">
       <label for="status_状態">状態</label>
-      <select name="project[status]" id="project_status">
-        <option value="0">施工中</option>
-        <option value="1">施工済み</option>
+      <select name="status">
+        <option value="">指定なし</option>
+        <option value="0" @if(isset($inputs['status']) && $inputs['status'] == 0) selected="selected" @endif>施工中</option>
+        <option value="1" @if(isset($inputs['status']) && $inputs['status'] == 1) selected="selected" @endif>施工済み</option>
       </select>
     </div>
   

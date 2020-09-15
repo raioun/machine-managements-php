@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Machine;
+use App\RentalMachine;
 
 class MachineController extends Controller
 {
@@ -63,13 +64,40 @@ class MachineController extends Controller
       $machines = Machine::all();
     }
     
-    return view('admin.machine.index', ['machines' => $machines]);
+    $inputs = $request->all();
+    return view('admin.machine.index', ['machines' => $machines, 'inputs' => $inputs]);
   }
   
   public function show(Request $request)
   {
+    $where = 'machine_id = ' . $request->id;
+    $i = 1;
+    
+    // status
+    if (isset($request->status)) {
+      if ($i) {
+        $where .= ' and ';
+      }
+      $where .= sprintf("status = %s ", $request->status);
+      $i++;
+    }
+
+    // code
+    if (isset($request->code)) {
+      if ($i) {
+         $where .= ' and ';
+      }
+      $query = sprintf("code LIKE '%%%s%%' ", $request->code);
+      $where .= $query;
+      $i++;
+    }
+    
+    $rental_machines = RentalMachine::whereRaw($where)->get();
+    // dd($where);
+    
     $machine = Machine::find($request->id);
-    return view('admin.machine.show', ['machine' => $machine]);
+    $inputs = $request->all();
+    return view('admin.machine.show', ['machine' => $machine, 'rental_machines' => $rental_machines, 'inputs' => $inputs]);
   }
   
   // public function edit(Request $request)

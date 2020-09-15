@@ -13,14 +13,15 @@
   
     <div class="form-group">
       <label for="name_ユーザ名">ユーザ名</label>
-      <input type="text" name="name">
+      <input type="text" name="name" value="@if(isset($inputs['name'])){{ $inputs['name'] }}@endif">
     </div>
       
     <div class="form-group">
       <label for="status_状態">状態</label>
       <select name="status">
-        <option value="0">在籍中</option>
-        <option value="1">退社済み</option>
+        <option value="">指定なし</option>
+        <option value="0" @if(isset($inputs['status']) && $inputs['status'] == 0) selected="selected" @endif>在籍中</option>
+        <option value="1" @if(isset($inputs['status']) && $inputs['status'] == 1) selected="selected" @endif>退社済み</option>
       </select>
     </div>
     

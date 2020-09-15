@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Customer; //これ入れ忘れないように
+use App\Orderer;
+use App\Project;
 
 class CustomerController extends Controller
 {
@@ -45,16 +47,68 @@ class CustomerController extends Controller
       $customers = Customer::all();
     }
     
-    return view('admin.customer.index', ['customers' => $customers]);
+    $inputs = $request->all();
+    return view('admin.customer.index', ['customers' => $customers, 'inputs' => $inputs]);
   }
   
   // 7/20 修正
   public function show(Request $request)
   {
+    // orderer
+    $orderer_where = 'customer_id = ' . $request->id;
+    $i = 1;
+    
+    // orderer_status
+    if (isset($request->orderer_status)) {
+      if ($i) {
+        $orderer_where .= ' and ';
+      }
+      $orderer_where .= sprintf("status = %s ", $request->orderer_status);
+      $i++;
+    }
+    
+    // family_name
+    if (isset($request->family_name)) {
+      if ($i) {
+         $orderer_where .= ' and ';
+      }
+      $query = sprintf("family_name LIKE '%%%s%%' ", $request->family_name);
+      $orderer_where .= $query;
+      $i++;
+    }
+    
+    //project
+    $project_where = 'customer_id = ' . $request->id;
+    $i = 1;
+    
+    // project_status
+    if (isset($request->project_status)) {
+      if ($i) {
+        $project_where .= ' and ';
+      }
+      $project_where .= sprintf("status = %s ", $request->project_status);
+      $i++;
+    }
+    
+    // project_name
+    if (isset($request->project_name)) {
+      if ($i) {
+         $project_where .= ' and ';
+      }
+      $query = sprintf("name LIKE '%%%s%%' ", $request->project_name);
+      $project_where .= $query;
+      $i++;
+    }
+    // var_dump($orderer_where);
+    // dd($project_where);
+
+    $orderers = Orderer::whereRaw($orderer_where)->get();
+    $projects = Project::whereRaw($project_where)->get();
+    
     $customer = Customer::find($request->id);
-    return view('admin.customer.show', ['customer' => $customer]);
+    $inputs = $request->all();
+    return view('admin.customer.show', ['customer' => $customer, 'orderers' => $orderers, 'projects' => $projects, 'inputs' => $inputs]);
   }
-  
   
   public function edit(Request $request)
   {

@@ -3,7 +3,7 @@
 @section('title', '案件詳細')
 @section('content')
       
-      <h1>案件ID：{{ $order->id }}の詳細ページ</h1>
+<h1>案件ID：{{ $order->id }}の詳細ページ</h1>
 <div>
   <p>状態：{{ $order->status_name() }}</p>
 </div>

@@ -12,12 +12,12 @@
   
     <div class="form-group">
       <label for="company_所有企業名">所有企業名</label>
-      <input type="text" name="company_name"/>
+      <input type="text" name="company_name" value="@if(isset($inputs['company_name'])){{ $inputs['company_name'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="branch_所有営業所名">所有営業所名</label>
-      <input type="text" name="name">
+      <input type="text" name="name" value="@if(isset($inputs['name'])){{ $inputs['name'] }}@endif">
     </div>
     
     <div><input type="submit" value="検索" data-disable-with="検索" /></div>

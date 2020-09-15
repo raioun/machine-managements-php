@@ -12,17 +12,17 @@
     
     <div class="form-group">
       <label for="name_機材名">機材名</label>
-      <input type="text" name="name">
+      <input type="text" name="name" value="@if(isset($inputs['name'])){{ $inputs['name'] }}@endif">
     </div>
     
     <div class="form-group">
       <label for="type1_型式1">型式1</label>
-      <input type="text" name="type1">
+      <input type="text" name="type1" value="@if(isset($inputs['type1'])){{ $inputs['type1'] }}@endif">
     </div>
     
     <div class="form-group">
       <label for="type2_型式2">型式2</label>
-      <input type="text" name="type2">
+      <input type="text" name="type2" value="@if(isset($inputs['type2'])){{ $inputs['type2'] }}@endif">
     </div>
     
     <div><input type="submit" value="検索" data-disable-with="検索" /></div>

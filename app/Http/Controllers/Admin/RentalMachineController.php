@@ -9,6 +9,7 @@ use App\Machine;
 use App\Branch;
 use App\Storage;
 use App\Company; //必要？
+use App\Order;
 
 class RentalMachineController extends Controller
 {
@@ -68,7 +69,7 @@ class RentalMachineController extends Controller
       $query .= ')';
       
       if ($i) {
-        $where .= ' and';
+        $where .= ' and ';
       }
       $where .= $query;
       $i++;
@@ -85,7 +86,7 @@ class RentalMachineController extends Controller
       $query .= ')';
       
       if ($i) {
-        $where .= ' and';
+        $where .= ' and ';
       }
       $where .= $query;
       $i++;
@@ -133,7 +134,7 @@ class RentalMachineController extends Controller
       $query .= ')';
       
       if ($i) {
-        $where .= ' and';
+        $where .= ' and ';
       }
       $where .= $query;
       $i++;
@@ -171,13 +172,20 @@ class RentalMachineController extends Controller
       $query .= ')';
       
       if ($i) {
-        $where .= ' and';
+        $where .= ' and ';
       }
       $where .= $query;
       $i++;
     }
     
-    // status、要実装
+    // status
+    if (isset($request->status)) {
+      if ($i) {
+        $where .= ' and ';
+      }
+      $where .= sprintf("status = %s ", $request->status);
+      $i++;
+    }
     
     if ($i) {
       $rental_machines = RentalMachine::whereRaw($where)->get();
@@ -185,14 +193,51 @@ class RentalMachineController extends Controller
       $rental_machines = RentalMachine::all();
     }
     
-    return view('admin.rental_machine.index', ['rental_machines' => $rental_machines]);
+    $inputs = $request->all();
+    return view('admin.rental_machine.index', ['rental_machines' => $rental_machines, 'inputs' => $inputs]);
   }
   
   // 7/20 修正
   public function show(Request $request)
   {
+    $where = 'rental_machine_id = ' . $request->id;
+    $i = 1;
+    
+    // status
+    if (isset($request->status)) {
+      if ($i) {
+        $where .= ' and ';
+      }
+      $where .= sprintf("status = %s ", $request->status);
+      $i++;
+    }
+    
+    // out_date
+    if (isset($request->out_date)) {
+      if ($i) {
+         $where .= ' and ';
+      }
+      $query = sprintf("CAST(out_date as CHAR) LIKE '%%%s%%' ", $request->out_date);
+      $where .= $query;
+      $i++;
+    }
+    
+    // in_date
+    if (isset($request->in_date)) {
+      if ($i) {
+         $where .= ' and ';
+      }
+      $query = sprintf("CAST(in_date as CHAR) LIKE '%%%s%%' ", $request->in_date);
+      $where .= $query;
+      $i++;
+    }
+    
+    $orders = Order::whereRaw($where)->get();
+    // dd($where);
+    
     $rental_machine = RentalMachine::find($request->id);
-    return view('admin.rental_machine.show', ['rental_machine' => $rental_machine]);
+    $inputs = $request->all();
+    return view('admin.rental_machine.show', ['rental_machine' => $rental_machine, 'orders' => $orders, 'inputs' => $inputs]);
   }
   
   public function edit(Request $request)

@@ -13,50 +13,51 @@
   
     <div class="form-group">
       <label for="machine_機材名">機材名</label>
-      <input type="text" name="machine_name"/>
+      <input type="text" name="machine_name" value="@if(isset($inputs['machine_name'])){{ $inputs['machine_name'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="type1_型式1">型式1</label>
-      <input type="text" name="machine_type1"/>
+      <input type="text" name="machine_type1" value="@if(isset($inputs['machine_type1'])){{ $inputs['machine_type1'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="type2_型式2">型式2</label>
-      <input type="text" name="machine_type2"/>
+      <input type="text" name="machine_type2" value="@if(isset($inputs['machine_type2'])){{ $inputs['machine_type2'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="code_機番">機番</label>
-      <input type="text" name="code">
+      <input type="text" name="code" value="@if(isset($inputs['code'])){{ $inputs['code'] }}@endif">
     </div>
 
     <div class="form-group">
       <label for="company_所有企業名">所有企業名</label>
-      <input type="text" name="branch_company_name"/>
+      <input type="text" name="branch_company_name" value="@if(isset($inputs['branch_company_name'])){{ $inputs['branch_company_name'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="branch_所有営業所名">所有営業所名</label>
-      <input type="text" name="branch_name"/>
+      <input type="text" name="branch_name" value="@if(isset($inputs['branch_name'])){{ $inputs['branch_name'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="storage_company_保管企業名">保管企業名</label>
-      <input type="text" name="storage_company_name"/>
+      <input type="text" name="storage_company_name" value="@if(isset($inputs['storage_company_name'])){{ $inputs['storage_company_name'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="storage_保管場所名">保管場所名</label>
-      <input type="text" name="storage_name"/>
+      <input type="text" name="storage_name" value="@if(isset($inputs['storage_name'])){{ $inputs['storage_name'] }}@endif"/>
     </div>
     
     <div class="form-group">
       <label for="status_状態">状態</label>
-      <select name="rental[status]" id="rental_status">
-        <option value="0">良品</option>
-        <option value="1">重整備</option>
-        <option value="2">廃棄済み</option>
+      <select name="status">
+        <option value="">指定なし</option>
+        <option value="0" @if(isset($inputs['status']) && $inputs['status'] == 0) selected="selected" @endif>良品</option>
+        <option value="1" @if(isset($inputs['status']) && $inputs['status'] == 1) selected="selected" @endif>重整備</option>
+        <option value="2" @if(isset($inputs['status']) && $inputs['status'] == 2) selected="selected" @endif>廃棄済み</option>
       </select>
     </div>
 
