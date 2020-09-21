@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Company;
+use App\Branch;
 
 class CompanyController extends Controller
 {
@@ -53,7 +54,8 @@ class CompanyController extends Controller
   public function show(Request $request)
   {
     $company = Company::find($request->id);
-    return view('admin.company.show', ['company' => $company]);
+    $branches = Branch::whereRaw($company->id)->get();
+    return view('admin.company.show', ['company' => $company, 'branches' => $branches]);
   }
   
   public function edit(Request $request)

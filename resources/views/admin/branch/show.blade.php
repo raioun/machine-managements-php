@@ -63,39 +63,38 @@
   </form>
 </div>
 
-<ul class="media-list">
-  @foreach($rental_machines as $rental_machine)  
-    <li class="media">
-      <div>
-        <p>機材名：<a href="/admin/machines/show?id={{ $rental_machine->machine->id }}">{{ $rental_machine->machine->name }} / {{ $rental_machine->machine->type1 }} / {{ $rental_machine->machine->type2 }} / {{ $rental_machine->machine->code }}</a></p>
+  <div class="row">
+    <div class="list-orders col-md-10 mx-auto">
+      <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="20%">機材名</th>
+              <th width="5%">機番</th>
+              <th width="15%">所有営業所名</th>
+              <th width="15%">保管場所</th>
+              <th width="10%">状態</th>
+              <th width="10%">備考欄</th>
+              <th width="10%">詳細画面</th>
+              <th width="10%">予約画面</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($rental_machines as $rental_machine) 
+              <tr>
+                <th><a href="/admin/machines/show?id={{ $rental_machine->machine->id }}">{{ $rental_machine->machine->name }} / {{ $rental_machine->machine->type1 }} / {{ $rental_machine->machine->type2 }} / {{ $rental_machine->machine->code }}</a></th>
+                <th>{{ $rental_machine->code }}</th>
+                <td><a href="/admin/branches/show?id={{ $rental_machine->branch->id }}">{{ $rental_machine->branch->company->name }} / {{ $rental_machine->branch->name }}</a></td>
+                <td><a href="/admin/storages/show?id={{ $rental_machine->storage->id }}">{{ $rental_machine->storage->company->name }} / {{ $rental_machine->storage->name }}</a></td>
+                <td>{{ $rental_machine->status_name() }}</td>
+                <td>{{ $rental_machine->remarks }}</td>
+                <td><a class="btn btn-primary" href="/admin/rental_machines/show?id={{ $rental_machine->id }}">詳細</a></td>
+                <td><a class="btn btn-success" href="/admin/orders/create?id={{ $rental_machine->id }}">貸し出す</a></td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
       </div>
-      <div>
-        <p>機番：{{ $rental_machine->code }}</p>
-      </div>
-      <div>
-        <p>所有営業所名：<a href="/admin/branches/show?id={{ $rental_machine->branch->id }}">{{ $rental_machine->branch->company->name }} / {{ $rental_machine->branch->name }}</a></p>
-      </div>
-      <div>
-        <p>保管場所：<a href="/admin/storages/show?id={{ $rental_machine->storage->id }}">{{ $rental_machine->storage->company->name }} / {{ $rental_machine->storage->name }}</a></p>
-      </div>
-      <div>
-        <p>状態：{{ $rental_machine->status_name() }}</p>
-      </div>
-      <div>
-        <p>備考欄：{{ $rental_machine->remarks }}</p>
-      </div>
-      <div class="button-space">
-        <a class="btn btn-primary" href="/admin/rental_machines/show?id={{ $rental_machine->id }}">詳細</a>
-      </div>
-      <div class="button-space">
-          @if($rental_machine->status == 2)
-            <p> 廃棄済みのため、出庫できません。</p>
-          @else
-            <a class="btn btn-success" href="/admin/orders/create?id={{ $rental_machine->id }}">貸し出す</a>
-          @endif
-      </div>
-    </li>
-  @endforeach
-</ul>
-
+    </div>
+  </div>
 @endsection

@@ -17,21 +17,21 @@
 <div class="text-center">
   <h1>この所有企業の営業所一覧</h1>
 </div>
-<div>
-  <ul class="media-list">
+
+<ul class="media-list">
+  @foreach($branches as $branch)  
     <li class="media">
       <div>
-        <p>所有企業名：<a href="/companies/4">ジャパンパイル基礎工業株式会社</a></p>
+        <p>所有企業名：<a href="/admin/companies/show?id={{ $branch->company->id }}">{{ $branch->company->name }}</a></p>
       </div>
       <div>
-        <p>所有営業所名：白井機材センター</p>
+        <p>所有営業所名：{{ $branch->name }}</p>
       </div>
       <div>
-        <a class="btn btn-primary" href="/branches/4">詳細</a>
+        <a class="btn btn-primary" href="/admin/branches/show?id={{ $branch->id }}">詳細</a>
       </div>
     </li>
-  
+  @endforeach
 </ul>
-</div>
 
 @endsection

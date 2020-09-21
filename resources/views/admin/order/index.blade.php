@@ -63,13 +63,13 @@
   </form>
 </div>
 
-<div class="col-xs-6">
-  <ul class="nav nav-tabs nav-justified">
-    <li class="active"><a href="/admin/orders">全ての案件</a></li>
-    <li class=""><a href="/admin/orders/reservations">予約中の案件</a></li>
-    <li class=""><a href="/admin/orders/uses">出庫中の案件</a></li>
-    <li class=""><a href="/admin/orders/cominghomes">返却済みの案件</a></li>
-  </ul>
+  <div class="col-xs-6">
+    <ul class="nav nav-tabs nav-justified">
+      <li class="active"><a href="/admin/orders">全ての案件</a></li>
+      <li class=""><a href="/admin/orders/reservations">予約中の案件</a></li>
+      <li class=""><a href="/admin/orders/uses">出庫中の案件</a></li>
+      <li class=""><a href="/admin/orders/cominghomes">返却済みの案件</a></li>
+    </ul>
   
     {{--()がないと、モデルに関連付けられた他のモデルのインスタンスを返す。自身モデルのインスタンスを返す場合。
     ex:orderer内で、そのordererのorders一覧を表示したい場合 $orderer->orders; $ordererテーブルのfamily_nameを使用する場合 $orderer->family_name;
@@ -77,35 +77,45 @@
     ()があれば、関数を呼んだことになる。DB内の値を返すわけではない。$statusesのように、関数で定義されているのみで、DB外のデータであるもの。
     Ruby_on_Railsではこれらの区別を付けていなくても勝手に処理してくれるが、LaravelPHPではこの区別が必要--}}
 
-<ul class="media-list">
-  @foreach($orders as $order)  
-    <li class="media">
-      <div>
-        <p>案件ID：{{ $order->id }}/状態：{{ $order->status_name() }}</p>
+    <div class="row">
+      <div class="list-orders col-md-10 mx-auto">
+        <div class="row">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="5%">案件ID</th>
+                <th width="8%">状態</th>
+                <th width="10%">出庫日時</th>
+                <th width="10%">入庫日時</th>
+                <th width="10%">応対者</th>
+                <th width="10%">顧客名</th>
+                <th width="10%">現場名</th>
+                <th width="20%">機材名</th>
+                <th width="5%">機番</th>
+                <th width="10%">備考欄</th>
+                <th width="10%">詳細画面</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($orders as $order) 
+                <tr>
+                  <th>{{ $order->id }}</th>
+                  <th>{{ $order->status_name() }}</th>
+                  <td>{{ $order->out_date }}</td>
+                  <td>{{ $order->in_date }}</td>
+                  <td><a href="/admin/users/show?id={{ $order->user->id }}">{{ $order->user->name }}</a></td>
+                  <td><a href="/admin/customers/show?id={{ $order->project->customer->id }}">{{ $order->project->customer->name }}</a></td>
+                  <td><a href="/admin/projects/show?id={{ $order->project->id }}">{{ $order->project->name }}</a></td>
+                  <td><a href="/admin/machines/show?id={{ $order->rental_machine->machine->id }}">{{ $order->rental_machine->machine->name }} / {{ $order->rental_machine->machine->type1 }} / {{ $order->rental_machine->machine->type2 }}</a></td>
+                  <td><a href="/admin/rental_machines/show?id={{ $order->rental_machine->id }}">{{ $order->rental_machine->code }}</a></td>
+                  <td>{{ $order->remarks }}</td>
+                  <td><a class="btn btn-primary" href="/admin/orders/show?id={{ $order->id }}">詳細</a></td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div>
-        <p>出庫日時：{{ $order->out_date }}//入庫日時：{{ $order->in_date }}/</p>
-      </div>
-      <div>
-        <p>応対者：<a href="/admin/users/show?id={{ $order->user->id }}">{{ $order->user->name }}</a></p>
-      </div>
-      <div>
-        <p>顧客名：<a href="/admin/customers/show?id={{ $order->project->customer->id }}">{{ $order->project->customer->name }}</a>/現場名：<a href="/admin/projects/show?id={{ $order->project->id }}">{{ $order->project->name }}</a></p>
-      </div>
-      <div>
-        <p>機材名：<a href="/admin/machines/show?id={{ $order->rental_machine->machine->id }}">{{ $order->rental_machine->machine->name }} / {{ $order->rental_machine->machine->type1 }} / {{ $order->rental_machine->machine->type2 }}</a></p>
-      </div>
-      <div>
-        <p>機番：<a href="/admin/rental_machines/show?id={{ $order->rental_machine->id }}">{{ $order->rental_machine->code }}</a></p>
-      </div>
-      <div>
-        <p>備考欄：{{ $order->remarks }}</p>
-      </div>
-      <div>
-        <a class="btn btn-primary" href="/admin/orders/show?id={{ $order->id }}">詳細</a>
-      </div>
-    </li>
-  @endforeach
-</ul>
-
+    </div>
+  </div>
 @endsection
